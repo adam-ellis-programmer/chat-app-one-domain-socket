@@ -1,12 +1,17 @@
 import React from 'react'
 
 const GoogleSignIn = () => {
+  const isProduction = import.meta.env.VITE_NODE_ENV === 'production'
   const handleGoogleSignIn = () => {
     // Redirect to Google OAuth endpoint on your server
-    window.location.href = 'http://localhost:5001/api/auth/google'
+    console.log('IS PRODUCTION---> ', isProduction)
+
+    window.location.href = isProduction
+      ? '/api/auth/google'
+      : 'http://localhost:5001/api/auth/google'
   }
 
-  return ( 
+  return (
     <button
       onClick={handleGoogleSignIn}
       className='btn bg-white text-[1.2rem] text-black border-[#e5e5e5] w-full mb-4 hover:bg-gray-50 transition-colors'

@@ -16,11 +16,14 @@ import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+import passport from 'passport'
+import { configurePassport } from './config/passport.js'
+
 // ============================
 // CONNECT TO DATABASE
 // ============================
 connectDB()
-
+configurePassport()
 const app = express()
 const server = createServer(app)
 
