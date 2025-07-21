@@ -10,7 +10,7 @@ let io
 
 const initializeSocket = (server) => {
   console.log('🔧 Initializing Socket.IO...')
-
+  // 
   // NEW (working)
   const corsConfig =
     process.env.NODE_ENV === 'production'
