@@ -28,7 +28,7 @@ const server = createServer(app)
 // INITIALIZE SOCKET.IO
 // ============================
 console.log('🔍 Initializing Socket.IO...')
-const io = initializeSocket(server)
+const io = initializeSocket(server) // socket io ready
 console.log('✅ Socket.IO initialized')
 
 // ============================
@@ -68,22 +68,19 @@ configureRoutes(app)
 console.log('✅ API routes added')
 
 // ============================
-// CATCH-ALL FOR REACT APP
+// CATCH-ALL FOR REACT APP (WILDCARD PATTERN)
 // ============================
 if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next()
-    }
-
-    // Serve React app
+  app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, '../client/dist/index.html')
     res.sendFile(indexPath)
   })
-  console.log('✅ React catch-all added')
+  console.log('✅ React catch-all added (wildcard pattern)')
 }
 
+// ============================
+// HANDLE SERVER NOT FOUND AND ERRORS
+// ============================
 app.use(notFound)
 app.use(errorHandler)
 
