@@ -6,6 +6,7 @@ const GoogleSignIn = () => {
     // Redirect to Google OAuth endpoint on your server
     console.log('IS PRODUCTION---> ', isProduction)
 
+    // 
     window.location.href = isProduction
       ? '/api/auth/google'
       : 'http://localhost:5001/api/auth/google'

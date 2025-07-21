@@ -5,7 +5,6 @@ import User from '../models/User.js'
 
 import mongoose from 'mongoose'
 
-
 // Export a function that configures passport when called
 export const configurePassport = () => {
   console.log('🔧 Configuring Passport...')
@@ -24,6 +23,8 @@ export const configurePassport = () => {
         callbackURL: '/api/auth/google/callback',
       },
       async (accessToken, refreshToken, profile, done) => {
+        console.log('accessToken--> ', accessToken)
+        console.log('profile--> ', profile)
         try {
           const { id, emails, name, photos } = profile
           const email = emails[0].value.toLowerCase()
@@ -71,7 +72,6 @@ export const configurePassport = () => {
 
   // Serialize user for session (required by Passport)
 
-  
   passport.serializeUser((user, done) => {
     done(null, user._id)
   })

@@ -462,7 +462,7 @@ export const googleCallback = async (req, res) => {
       const errorRedirect =
         process.env.NODE_ENV === 'production'
           ? '/email-sign-in?error=auth_failed'
-          : `${process.env.CLIENT_URL}/email-sign-in?error=auth_failed`
+          : `${process.env.VITE_DEV_FRONTEND_URL}/email-sign-in?error=auth_failed`
 
       return res.redirect(errorRedirect)
     }
@@ -480,7 +480,7 @@ export const googleCallback = async (req, res) => {
     const successRedirect =
       process.env.NODE_ENV === 'production'
         ? '/chat/user'
-        : `${process.env.CLIENT_URL}/chat/user`
+        : `${process.env.VITE_DEV_FRONTEND_URL}/chat/user`
 
     // Redirect to frontend dashboard
     res.redirect(successRedirect)
@@ -491,7 +491,7 @@ export const googleCallback = async (req, res) => {
     const errorRedirect =
       process.env.NODE_ENV === 'production'
         ? '/email-sign-in?error=server_error'
-        : `${process.env.CLIENT_URL}/email-sign-in?error=server_error`
+        : `${process.env.VITE_DEV_FRONTEND_URL}/email-sign-in?error=server_error`
 
     res.redirect(errorRedirect)
   }
