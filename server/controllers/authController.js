@@ -24,7 +24,7 @@ const setTokenCookie = (res, token) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/', // ✅ MANDATORY: Must be set for cross-domain
     // ✅ DO NOT set domain - let browser handle it
-    // domain: '.yourdomain.com', // Allows sharing between subdomains 
+    // domain: '.yourdomain.com', // Allows sharing between subdomains
   }
 
   console.log('🍪 Cookie options:', cookieOptions)
@@ -451,13 +451,20 @@ export const resendVerificationEmail = async (req, res) => {
 // @desc    Google OAuth callback - handle successful authentication
 // @route   GET /api/auth/google/callback
 // @access  Public
+// @desc    Google OAuth callback - handle successful authentication
+// @route   GET /api/auth/google/callback
+// @access  Public
 export const googleCallback = async (req, res) => {
   try {
     // req.user will be populated by Passport middleware
     if (!req.user) {
-      return res.redirect(
-        `${process.env.CLIENT_URL}/email-sign-in?error=auth_failed`
-      )
+      // Fix: Use relative paths for same domain deployment
+      const errorRedirect =
+        process.env.NODE_ENV === 'production'
+          ? '/email-sign-in?error=auth_failed'
+          : `${process.env.CLIENT_URL}/email-sign-in?error=auth_failed`
+
+      return res.redirect(errorRedirect)
     }
 
     // Update last login
@@ -469,10 +476,23 @@ export const googleCallback = async (req, res) => {
     // Set JWT in cookie (using your existing function)
     setTokenCookie(res, token)
 
+    // Fix: Use relative paths for same domain deployment
+    const successRedirect =
+      process.env.NODE_ENV === 'production'
+        ? '/chat/user'
+        : `${process.env.CLIENT_URL}/chat/user`
+
     // Redirect to frontend dashboard
-    res.redirect(`${process.env.CLIENT_URL}/chat/user`)
+    res.redirect(successRedirect)
   } catch (error) {
     console.error('Google callback error:', error)
-    res.redirect(`${process.env.CLIENT_URL}/email-sign-in?error=server_error`)
+
+    // Fix: Use relative paths for same domain deployment
+    const errorRedirect =
+      process.env.NODE_ENV === 'production'
+        ? '/email-sign-in?error=server_error'
+        : `${process.env.CLIENT_URL}/email-sign-in?error=server_error`
+
+    res.redirect(errorRedirect)
   }
 }
