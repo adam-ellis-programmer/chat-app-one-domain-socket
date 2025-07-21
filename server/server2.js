@@ -68,21 +68,14 @@ configureRoutes(app)
 console.log('✅ API routes added')
 
 // ============================
-// CATCH-ALL FOR REACT APP
+// CATCH-ALL FOR REACT APP (WILDCARD PATTERN)
 // ============================
-// alternate to app.get('*') app.post() etc
 if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next()
-    }
-
-    // Serve React app
+  app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, '../client/dist/index.html')
     res.sendFile(indexPath)
   })
-  console.log('✅ React catch-all added')
+  console.log('✅ React catch-all added (wildcard pattern)')
 }
 
 // ============================
