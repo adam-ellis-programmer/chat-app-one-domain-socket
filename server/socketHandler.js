@@ -11,12 +11,22 @@ let io
 const initializeSocket = (server) => {
   console.log('🔧 Initializing Socket.IO...')
 
+  // NEW (working)
+  const corsConfig =
+    process.env.NODE_ENV === 'production'
+      ? {
+          origin: true, // ✅ Allow same origin (Railway domain)
+          methods: ['GET', 'POST'],
+          credentials: true,
+        }
+      : {
+          origin: ['http://localhost:5173', 'http://localhost:3000'], // ✅ Specific localhost
+          methods: ['GET', 'POST'],
+          credentials: true,
+        }
+
   io = new Server(server, {
-    cors: {
-      origin: process.env.CLIENT_URL || 'http://localhost:5173',
-      methods: ['GET', 'POST'],
-      credentials: true,
-    },
+    cors: corsConfig,
     transports: ['websocket', 'polling'],
     allowEIO3: true,
   })
