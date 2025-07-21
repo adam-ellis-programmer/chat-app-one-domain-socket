@@ -118,8 +118,8 @@ if (process.env.NODE_ENV === 'production') {
 // ============================
 // ERROR / NOT FOUND MIDDLEWARE
 // ============================
-app.use(notFound)
-app.use(errorHandler)
+// app.use(notFound)
+// app.use(errorHandler)
 
 // ============================
 // PORT AND SERVER LISTEN
