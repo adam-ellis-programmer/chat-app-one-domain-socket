@@ -102,7 +102,13 @@ configureRoutes(app)
 // ============================
 if (process.env.NODE_ENV === 'production') {
   // Catch all handler: send back React's index.html file
-  app.get('*', (req, res) => {
+  // Fix: Use a more specific pattern that doesn't confuse path-to-regexp
+  app.get('/*', (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return res.status(404).json({ error: 'API route not found' })
+    }
+
     const indexPath = path.join(__dirname, '../client/dist/index.html')
     console.log('📄 Serving React app from:', indexPath)
     res.sendFile(indexPath)
