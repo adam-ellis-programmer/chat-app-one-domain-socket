@@ -6,6 +6,7 @@ dotenv.config()
 import cookieParser from 'cookie-parser'
 import { createServer } from 'http'
 import connectDB from './config/db.js'
+import { initializeSocket } from './socketHandler.js'
 import configureRoutes from './config/configureRoutes.js'
 
 import path from 'path'
@@ -21,6 +22,13 @@ connectDB()
 
 const app = express()
 const server = createServer(app)
+
+// ============================
+// INITIALIZE SOCKET.IO
+// ============================
+console.log('🔍 Initializing Socket.IO...')
+const io = initializeSocket(server)
+console.log('✅ Socket.IO initialized')
 
 // ============================
 // BASIC MIDDLEWARE
@@ -83,8 +91,14 @@ server.listen(PORT, () => {
       process.env.NODE_ENV === 'production' ? '' : 'http://localhost:' + PORT
     }/api/health`
   )
+  console.log(
+    `🔌 Socket.IO available at: ${
+      process.env.NODE_ENV === 'production' ? '' : 'http://localhost:' + PORT
+    }/socket.io/`
+  )
 
   if (process.env.NODE_ENV === 'production') {
     console.log('🌐 Production: Frontend and API on same domain')
+    console.log('💬 WebSocket: Available on same domain')
   }
 })
