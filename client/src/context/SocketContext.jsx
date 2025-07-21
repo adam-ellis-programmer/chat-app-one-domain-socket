@@ -67,9 +67,7 @@ export const SocketProvider = ({ children }) => {
     // ✅ Only reach here if user is fully authenticated
     console.log('✅ User authenticated, initializing socket connection')
 
-    const serverUrl = isProduction
-      ? import.meta.env.VITE_SERVER_URL
-      : 'http://localhost:5001'
+    const serverUrl = isProduction ? '' : 'http://localhost:5001'
 
     console.log('🔗 Attempting to connect to:', serverUrl)
 
