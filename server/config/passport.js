@@ -3,6 +3,8 @@ import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import User from '../models/User.js'
 
+// MOVE GOOGLE ROUTES INTO MAIN SERVER / SERVER CONFIG
+// MOVE GOOGLE ROUTES INTO MAIN SERVER / SERVER CONFIG
 import mongoose from 'mongoose'
 
 // Export a function that configures passport when called

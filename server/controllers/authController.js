@@ -446,8 +446,6 @@ export const resendVerificationEmail = async (req, res) => {
   }
 }
 
-// Add these functions to your existing server/controllers/authController.js
-
 // @desc    Google OAuth callback - handle successful authentication
 // @route   GET /api/auth/google/callback
 // @access  Public

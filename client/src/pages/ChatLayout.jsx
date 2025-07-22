@@ -9,7 +9,7 @@ const ChatLayout = () => {
       </nav>
       <Outlet />
       {/* admin button container */}
-      <div className='absolute bottom-5 right-8 '>
+      {/* <div className=' bottom-5 right-8 '>
         <Link
           to='/admin'
           target='_blank'
@@ -18,7 +18,7 @@ const ChatLayout = () => {
         >
           admin pannel
         </Link>
-      </div>
+      </div> */}
     </div>
   )
 }

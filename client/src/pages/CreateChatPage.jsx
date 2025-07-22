@@ -6,21 +6,6 @@ import { useSocket } from '../context/SocketContext'
 import LogoutBtn from '../components/Auth Buttons/LogoutBtn'
 import BackBtn from '../components/BackBtn'
 
-// // In CreateChatPage.jsx
-// import { useContext } from 'react'
-// import { SocketContext } from '../context/SocketContext'
-
-// WITH OUT THE HOOK WE WOULD WRITE THIS
-// const CreateChatPage = () => {
-// const context = useContext(SocketContext)
-// if (!context) {
-// throw new Error('useSocket must be used within a SocketProvider')
-// }
-// const { availableRooms, createRoom, joinRoom, getRooms, isConnected } = context
-
-// ... rest of component
-// }
-
 const CreateChatPage = () => {
   const [roomName, setRoomName] = useState('')
   const navigate = useNavigate()
@@ -68,7 +53,8 @@ const CreateChatPage = () => {
 
       <section className='mt-10'>
         <div className='grid md:grid-cols-2'>
-          <div>
+          {/* Create Room Section - First on desktop (left), Second on mobile (bottom) */}
+          <div className='order-2 md:order-1  mt-20 md:mt-0'>
             <form onSubmit={handleCreateRoom} className='max-w-[500px] mx-auto'>
               <p className='capitalize text-2xl text-center text-white mb-5'>
                 create a room
@@ -89,24 +75,32 @@ const CreateChatPage = () => {
                 >
                   Start Chat
                 </button>
-                <LogoutBtn />
-                {/* dynamic button */}
-                {/* <div className='flex justify-center  mt-20'>
-                  <BackBtn route='/' />
-                </div> */}
+                <div>
+                  <LogoutBtn />
+                </div>
               </div>
             </form>
-            <div className='flex  max-w-[500px] mx-auto mt-10'>
+            <div className='flex max-w-[500px] mx-auto mt-10  justify-between'>
               <Link
                 to={`/chat/user`}
-                className='bg-rose-500 text-white text-2xl p-3 rounded-2xl'
+                className='bg-rose-500 text-white text-2xl p-3 rounded w-50 text-center'
               >
                 My Profile
+              </Link>
+
+              <Link
+                to='/admin'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='bg-rose-500 text-white text-2xl p-3 rounded w-50 text-center'
+              >
+                admin pannel
               </Link>
             </div>
           </div>
 
-          <div>
+          {/* Rooms List Section - Second on desktop (right), First on mobile (top) */}
+          <div className='order-1 md:order-2'>
             <p className='text-2xl text-center text-white capitalize'>
               rooms in use
             </p>

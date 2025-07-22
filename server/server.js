@@ -74,6 +74,7 @@ console.log('✅ API routes added')
 // CATCH-ALL FOR REACT APP
 // ============================
 // alternate to app.get('*') app.post() etc
+// Any route that doesn't start with /api/ gets the React index.html
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     // Skip API routes
