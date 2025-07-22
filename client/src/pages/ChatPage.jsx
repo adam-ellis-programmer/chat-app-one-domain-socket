@@ -149,9 +149,9 @@ const ChatPage = () => {
   }
 
   return (
-    <div className='grid lg:grid-cols-[500px_1fr] relative h-screen'>
+    <div className='grid lg:grid-cols-[500px_1fr] relative'>
       {/* Left sidebar */}
-      <div className=''>
+      <div className='order-2 md:order-1'>
         <p className='text-2xl text-center text-white mt-10 capitalize'>
           {currentRoom?.name || roomName}
         </p>
@@ -202,7 +202,7 @@ const ChatPage = () => {
       </div>
 
       {/* Right chat area */}
-      <div className='flex flex-col h-full'>
+      <div className='flex flex-col h-full order-1 md:order-2'>
         <p className='text-2xl text-center text-white mt-10 capitalize'>
           chat screen
         </p>
