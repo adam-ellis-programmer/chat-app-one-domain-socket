@@ -26,8 +26,7 @@ export const configurePassport = () => {
           process.env.NODE_ENV === 'production'
             ? 'https://chat-app-one-domain-socket-production-e1fa.up.railway.app/api/auth/google/callback'
             : 'http://localhost:5001/api/auth/google/callback',
-      },
-      async (accessToken, refreshToken, profile, done) => {
+      }, async (accessToken, refreshToken, profile, done) => {
         console.log('accessToken--> ', accessToken)
         console.log('profile--> ', profile)
         try {

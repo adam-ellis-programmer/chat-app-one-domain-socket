@@ -4,6 +4,10 @@
 
 @plugin "daisyui";
 
+@config {
+  darkmode: never;
+}
+
 body {
   font-family: 'Exo 2', sans-serif;
   font-optical-sizing: auto;
