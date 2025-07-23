@@ -47,12 +47,8 @@ const ChatPage = () => {
   }, [roomName, user, currentRoom, joinRoom, isConnected])
 
   useEffect(() => {
-    // Better scrollIntoView options for mobile
-    messagesEndRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end', // Align to end of the scrolling area
-      inline: 'nearest', // Don't scroll horizontally
-    })
+    // Scroll to bottom when new messages arrive
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   const handleSendMessage = (e) => {
@@ -214,7 +210,7 @@ const ChatPage = () => {
         <section className='flex-1 mt-20 px-4'>
           <div className='max-w-[1000px] h-[500px] bg-white mx-auto rounded relative overflow-hidden '>
             {/* Chat Messages */}
-            <div className='h-full overflow-y-auto p-4 space-y-4 '>
+            <div className='h-full overflow-y-auto p-4 space-y-4 border border-4 border-amber-500'>
               {messages.length === 0 ? (
                 <p className='text-gray-500 text-center'>
                   No messages yet. Start the conversation!
