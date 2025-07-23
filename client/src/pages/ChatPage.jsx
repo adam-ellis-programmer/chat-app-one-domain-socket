@@ -51,7 +51,7 @@ const ChatPage = () => {
     messagesEndRef.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'end', // Align to end of the scrolling area
-      inline: 'nearest', // Don't scroll horizontally
+      // inline: 'nearest', // Don't scroll horizontally
     })
   }, [messages])
 
@@ -222,7 +222,7 @@ const ChatPage = () => {
               ) : (
                 messages.map((msg) => renderMessage(msg))
               )}
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className='border-4 bg-rose-300' />
             </div>
           </div>
 

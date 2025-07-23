@@ -1,4 +1,4 @@
-// ChatPage.jsx
+// Rewritten with parent container reference
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -6,11 +6,10 @@ import { useSocket } from '../context/SocketContext'
 
 const ChatPage = () => {
   const [message, setMessage] = useState('')
-  const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null) // Single ref on parent container
   const navigate = useNavigate()
-  const { roomName } = useParams() // Get room name from URL params
+  const { roomName } = useParams()
 
-  // Get user from Redux store - corrected path
   const user = useSelector((state) => state.auth.userInfo)
 
   const {
@@ -22,21 +21,12 @@ const ChatPage = () => {
     joinRoom,
     isConnected,
   } = useSocket()
-  // Replace the useEffect in ChatPage.jsx with this smarter version:
 
   useEffect(() => {
-    // Only try to join if:
-    // 1. We have a room name from URL
-    // 2. User is authenticated
-    // 3. Socket is connected
-    // 4. We don't have a current room
-    // 5. The room name in URL matches what we expect (not just left)
     if (roomName && user?.id && isConnected && !currentRoom) {
       console.log('🔍 Attempting to join room from URL:', roomName)
 
-      // Small delay to prevent race condition with leave
       const timeoutId = setTimeout(() => {
-        // Double-check we still don't have a current room
         if (!currentRoom) {
           joinRoom(roomName, user.id, user.username || user.email)
         }
@@ -46,15 +36,21 @@ const ChatPage = () => {
     }
   }, [roomName, user, currentRoom, joinRoom, isConnected])
 
+  // Scroll to bottom using parent container ref
   useEffect(() => {
-    // Scroll to bottom when new messages arrive
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (messagesContainerRef.current) {
+      const container = messagesContainerRef.current
+      // Scroll to bottom with smooth behavior
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
   }, [messages])
 
   const handleSendMessage = (e) => {
     e.preventDefault()
     if (message.trim() && user) {
-      // Use correct user fields: id, username, email
       sendMessage(message.trim(), user.id, user.username || user.email)
       setMessage('')
     }
@@ -62,7 +58,6 @@ const ChatPage = () => {
 
   const handleLeaveRoom = () => {
     console.log('🚪 handleLeaveRoom called')
-    // console.log('🚪 leaveRoom function called with userId:', userId)
     console.log('🚪 Current room:', currentRoom?.name)
     if (user) {
       console.log('🚪 About to call leaveRoom with user:', user.id)
@@ -77,9 +72,7 @@ const ChatPage = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 
-  // Render different message types
   const renderMessage = (msg) => {
-    // System messages (join/leave notifications)
     if (msg.isSystemMessage) {
       return (
         <div key={msg.id} className='flex justify-center my-2'>
@@ -99,7 +92,6 @@ const ChatPage = () => {
       )
     }
 
-    // Regular user messages
     return (
       <div
         key={msg.id}
@@ -124,7 +116,6 @@ const ChatPage = () => {
     )
   }
 
-  // Show loading state
   if (!isConnected) {
     return (
       <div className='flex justify-center items-center h-screen'>
@@ -133,7 +124,6 @@ const ChatPage = () => {
     )
   }
 
-  // Show room loading if we have a room name but no current room
   if (roomName && !currentRoom) {
     return (
       <div className='flex justify-center items-center h-screen'>
@@ -142,7 +132,6 @@ const ChatPage = () => {
     )
   }
 
-  // If no room name in URL and no current room, redirect to create page
   if (!roomName && !currentRoom) {
     navigate('/chat/create')
     return null
@@ -164,7 +153,6 @@ const ChatPage = () => {
         </p>
 
         <div className='min-h-[300px] mt-12 m-10 bg-white rounded p-4'>
-          {/* Participants list */}
           <h3 className='text-xl font-bold mb-4'>Online Users</h3>
           <ul className='space-y-2'>
             {participants.length === 0 ? (
@@ -208,9 +196,12 @@ const ChatPage = () => {
         </p>
 
         <section className='flex-1 mt-20 px-4'>
-          <div className='max-w-[1000px] h-[500px] bg-white mx-auto rounded relative overflow-hidden '>
-            {/* Chat Messages */}
-            <div className='h-full overflow-y-auto p-4 space-y-4 border border-4 border-amber-500'>
+          <div className='max-w-[1000px] h-[500px] bg-white mx-auto rounded relative overflow-hidden'>
+            {/* Chat Messages - Ref on parent container */}
+            <div
+              ref={messagesContainerRef}
+              className='h-full overflow-y-auto p-4 space-y-4'
+            >
               {messages.length === 0 ? (
                 <p className='text-gray-500 text-center'>
                   No messages yet. Start the conversation!
@@ -218,7 +209,7 @@ const ChatPage = () => {
               ) : (
                 messages.map((msg) => renderMessage(msg))
               )}
-              <div ref={messagesEndRef} />
+              {/* No more scroll anchor div needed! */}
             </div>
           </div>
 

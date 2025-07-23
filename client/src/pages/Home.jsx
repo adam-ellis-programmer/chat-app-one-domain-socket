@@ -20,7 +20,7 @@ const Home = () => {
           </p>
           <EmailSignIn />
           <GoogleSignIn />
-          <LinkedInSignIn />
+          {/* <LinkedInSignIn /> */}
         </div>
       </section>
 
